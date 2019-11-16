@@ -7,20 +7,7 @@ use Illuminate\Http\Request;
 
 class LutteurController extends Controller
 {
-    protected $lutteur;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct(Lutteur $lutteur)
-    {
-        // Injection du modèle Lutteur
-        $this->lutteur = $lutteur;
-    }
-
-    //Création d'un lutteur
+     //Création d'un lutteur
     public function create(Request $request)
     {
         $this->validate($request,[
@@ -28,24 +15,22 @@ class LutteurController extends Controller
             'poids'=>'required|numeric'
         ]);
 
-        $lutteur = $this->lutteur->create([
+        return Lutteur::create([
             'pseudo'=>$request->input('pseudo'),
             'poids'=>$request->input('poids')
         ]);
-
-        return $lutteur;
     }
 
     // Récupérer tous les lutteurs
     public function showAll()
     {
-        return $this->lutteur->all();
+        return Lutteur::all();
     }
 
     // Récupérer un lutteur via son identifiant
     public function showOne($id)
     {
-        $lutteur = $this->lutteur->find($id);
+        $lutteur = Lutteur::find($id);
         if(!$lutteur)
             return ['status'=>404, 'message'=>"Aucun lutteur n'a l'idenfiant ".$id];
         return $lutteur;
@@ -55,11 +40,11 @@ class LutteurController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'pseudo'=>'required|unique:lutteurs',
+            'pseudo'=>'required|unique:lutteurs,pseudo,'.$id,
             'poids'=>'required|numeric'
         ]);
 
-        $lutteur = $this->lutteur->find($id);
+        $lutteur = Lutteur::find($id);
         
         if(!$lutteur)
             return ['status'=>404, 'message'=>"Aucun lutteur n'a l'idenfiant ".$id];
@@ -75,7 +60,7 @@ class LutteurController extends Controller
     // Supprimer un lutteur via son identifiant
     public function delete($id)
     {
-        $lutteur = $this->lutteur->find($id);
+        $lutteur = Lutteur::find($id);
         if(!$lutteur)
             return ['status'=>404, 'message'=>"Aucun lutteur n'a l'idenfiant ".$id];
         $lutteur->delete();
