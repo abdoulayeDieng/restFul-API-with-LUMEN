@@ -15,10 +15,7 @@ class LutteurController extends Controller
             'poids'=>'required|numeric'
         ]);
 
-        return Lutteur::create([
-            'pseudo'=>$request->input('pseudo'),
-            'poids'=>$request->input('poids')
-        ]);
+        return Lutteur::create($request->all());
     }
 
     // Récupérer tous les lutteurs
@@ -49,10 +46,7 @@ class LutteurController extends Controller
         if(!$lutteur)
             return ['status'=>404, 'message'=>"Aucun lutteur n'a l'idenfiant ".$id];
         
-        $lutteur->update([
-            'pseudo'=>$request->input('pseudo'),
-            'poids'=>$request->input('poids')
-        ]);
+        $lutteur->update($request->all());
         
         return $lutteur;
     }
