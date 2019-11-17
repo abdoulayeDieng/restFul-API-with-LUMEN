@@ -15,7 +15,7 @@ class LutteurController extends Controller
             'poids'=>'required|numeric'
         ]);
 
-        return Lutteur::create($request->all());
+        return response()->json(Lutteur::create($request->all()),201);
     }
 
     // Récupérer tous les lutteurs
@@ -29,7 +29,7 @@ class LutteurController extends Controller
     {
         $lutteur = Lutteur::find($id);
         if(!$lutteur)
-            return ['status'=>404, 'message'=>"Aucun lutteur n'a l'idenfiant ".$id];
+            return response()->json(['message'=>"Aucun lutteur n'a l'idenfiant ".$id], 404) ;
         return $lutteur;
     }
 
@@ -44,7 +44,7 @@ class LutteurController extends Controller
         $lutteur = Lutteur::find($id);
         
         if(!$lutteur)
-            return ['status'=>404, 'message'=>"Aucun lutteur n'a l'idenfiant ".$id];
+            return response()->json(['message'=>"Aucun lutteur n'a l'idenfiant ".$id], 404) ;
         
         $lutteur->update($request->all());
         
@@ -56,8 +56,8 @@ class LutteurController extends Controller
     {
         $lutteur = Lutteur::find($id);
         if(!$lutteur)
-            return ['status'=>404, 'message'=>"Aucun lutteur n'a l'idenfiant ".$id];
+            return response()->json(['message'=>"Aucun lutteur n'a l'idenfiant ".$id], 404) ;
         $lutteur->delete();
-        return  "Le lutteur identifié par $id a été supprimé";
+        return response()->json(['message'=>"Le lutteur identifié par $id a été supprimé"]) ;
     }
 }
